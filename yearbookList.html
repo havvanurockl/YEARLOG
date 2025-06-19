@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Yıllıklar - YEARLOG</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&family=Roboto&display=swap" rel="stylesheet" />
+
+    <style>
+        /* Sizin mevcut CSS kodunuz */
+        :root {
+            --main-color: #f5f5f5;
+            --black-color: #004aad;
+            --highlight-color: #ffde59;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Poppins", sans-serif;
+        }
+
+        body {
+            background-color: var(--main-color);
+            min-height: 100vh;
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 8px 30px;
+            background-color: white;
+            border-radius: 40px;
+            margin: 10px auto;
+            max-width: 1000px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            position: relative;
+            z-index: 10;
+        }
+
+        .logo img {
+            height: 45px;
+        }
+
+        .navbar {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            align-items: center;
+            flex: 1;
+            margin-left: 30px;
+        }
+
+        .navbar a {
+            font-size: 1rem;
+            color: var(--black-color);
+            font-weight: 500;
+            text-decoration: none;
+        }
+
+        .navbar a:hover {
+            color: var(--highlight-color);
+        }
+
+        .buttons {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        #searchBtn, #menuBtn {
+            background: none;
+            border: none;
+            font-size: 1.1rem;
+            color: var(--black-color);
+            cursor: pointer;
+        }
+
+        #menuBtn {
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                display: none;
+                flex-direction: column;
+                background-color: white;
+                position: absolute;
+                top: 80px;
+                right: 20px;
+                padding: 15px;
+                border-radius: 15px;
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
+                z-index: 99;
+            }
+
+            .navbar.active {
+                display: flex;
+            }
+
+            #menuBtn {
+                display: inline-block;
+            }
+        }
+
+        .page-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: url('images/yearbook.bg.jpg') no-repeat center center;
+            background-size: cover;
+            filter: blur(8px);
+            z-index: -1;
+        }
+
+        .container {
+            background-color: rgba(255, 255, 255, 0.95);
+            padding: 3rem;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 1000px;
+            margin: 4rem auto;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 2rem;
+            font-size: 2.8rem;
+            color: var(--black-color);
+        }
+
+        select {
+            width: 100%;
+            padding: 10px;
+            font-size: 1.4rem;
+            border: 2px solid var(--black-color);
+            border-radius: 8px;
+            margin-bottom: 2rem;
+        }
+
+        /* Bu kısım yearbookList için özel stil */
+        #yearbookList {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+        }
+
+        .yearbook-card {
+            background-color: #ffffff;
+            border: 2px solid var(--black-color);
+            border-radius: 8px;
+            padding: 1rem;
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            box-shadow: 0 4px 8px rgba(0, 74, 173, 0.15);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            flex-direction: column; /* İçeriği dikey sırala */
+            text-align: center; /* İçeriği ortala */
+        }
+
+        .yearbook-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 74, 173, 0.3);
+        }
+
+        .yearbook-photo {
+            max-width: 100%; /* Kartın genişliğini aşmasın */
+            height: 200px; /* Sabit yükseklik */
+            border-radius: 6px;
+            object-fit: cover; /* Resmi kutuya sığdır */
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+            flex-shrink: 0;
+            /* aspect-ratio: 4 / 5; */ /* Eğer object-fit kullanıyorsak çok gerekli olmayabilir */
+        }
+        .yearbook-video { /* Video için stil */
+            max-width: 100%;
+            height: 150px;
+            border-radius: 6px;
+            object-fit: contain;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .yearbook-info {
+            flex-grow: 1; /* Bilgi kısmı kalan alanı kaplasın */
+        }
+        .yearbook-info p {
+            margin: 0.3rem 0;
+            font-size: 1.1rem; /* Font boyutunu biraz küçülttüm */
+            color: #000;
+        }
+        .yearbook-info h3 { /* İsim başlığı için stil */
+            margin-top: 0;
+            margin-bottom: 0.5rem;
+            color: var(--black-color);
+            font-size: 1.6rem;
+        }
+
+        /* Toast bildirimleri için stiller */
+        #toast {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #004aad;
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            display: none; /* Başlangıçta gizli */
+            font-size: 1.4rem;
+            z-index: 9999;
+            opacity: 0; /* Animasyon için */
+            transform: translateY(20px); /* Animasyon için */
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+        #toast.show { /* Göstermek için sınıf */
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+        /* Yıllık girişi yoksa gösterilecek mesaj */
+        .no-entries {
+            text-align: center;
+            color: #888;
+            font-size: 1.2em;
+            padding: 50px;
+            display: none; /* Başlangıçta gizli */
+        }
+    </style>
+</head>
+
+<body>
+    <div class="page-bg"></div>
+
+    <header class="header">
+        <a href="index.html" class="logo">
+            <img src="images/YEARLOG.png" alt="logo" />
+        </a>
+
+        <nav class="navbar" id="navLinks">
+            <a href="index.html">Anasayfa</a>
+            <a href="create.html">Yıllık Oluştur</a>
+            <a href="favorites.html">Favorilerim</a>
+            <a href="yearbookList.html" class="active">Tüm Yıllıklar</a>
+            <a href="profile.html">Profilim</a>
+        </nav>
+
+        <div class="buttons">
+            <button id="searchBtn"><i class="fa-solid fa-magnifying-glass"></i></button>
+            <button id="menuBtn"><i class="fa-solid fa-bars"></i></button>
+        </div>
+    </header>
+
+    <div class="container">
+        <h1>Yıllıklar</h1>
+        <label for="classSelect">Sınıf Seçin:</label>
+        <select id="classSelect">
+            <option value="">-- Tüm Sınıflar --</option> </select>
+        <div id="yearbookList">
+            </div>
+        <div id="noEntriesMessage" class="no-entries">
+            Henüz hiçbir yıllık girişi bulunmamaktadır.
+        </div>
+    </div>
+
+    <div id="toast"></div>
+<script>
+    // Toast bildirim fonksiyonu (AYNI KALIYOR)
+    function showToast(message, type = 'success') {
+        const toastElement = document.getElementById('toast');
+        toastElement.textContent = message;
+        toastElement.className = `toast show ${type}`;
+
+        setTimeout(() => {
+            toastElement.classList.remove('show');
+            toastElement.addEventListener('transitionend', () => {
+                toastElement.style.display = 'none';
+            }, { once: true });
+        }, 3000);
+    }
+
+    // Sınıf listesini yükleme fonksiyonu (AYNI KALIYOR - küçük bir düzeltme ekledim)
+    async function loadClassList() {
+        const classSelect = document.getElementById('classSelect');
+        try {
+            const response = await fetch('http://localhost:5000/api/classes');
+            if (!response.ok) {
+                throw new Error(`HTTP hata! Durum: ${response.status}`);
+            }
+            const classes = await response.json();
+
+            // Varsayılan "Sınıf Seçin" seçeneğini her zaman başta tut
+            classSelect.innerHTML = '<option value="">-- Sınıf Seçin --</option>'; 
+            
+            classes.forEach(cls => {
+                const option = document.createElement('option');
+                option.value = cls.name;
+                option.textContent = cls.name;
+                classSelect.appendChild(option);
+            });
+            
+        } catch (error) {
+            console.error("Sınıf listesi yüklenirken hata:", error);
+            showToast(`Sınıflar yüklenemedi: ${error.message}`, 'error'); 
+        }
+    }
+
+    // Favoriye ekle fonksiyonu (YENİ - Backend ile etkileşime geçecek)
+    async function addToFavorites(yearbookEntryId) {
+        const token = localStorage.getItem("token"); // Kullanıcı token'ını al
+        if (!token) {
+            showToast("Favorilere eklemek için giriş yapmalısınız.", "error");
+            return;
+        }
+
+        try {
+            const response = await fetch('http://localhost:5000/api/favorites', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}` // Token'ı gönder
+                },
+                body: JSON.stringify({ yearbookEntryId: yearbookEntryId }) // Yıllık ID'sini gönder
+            });
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.message || 'Favoriye eklenirken bir hata oluştu.');
+            }
+
+            showToast("Yıllık favorilere eklendi!", "success");
+        } catch (error) {
+            console.error("Favoriye eklenirken hata:", error);
+            showToast(`Hata: ${error.message}`, 'error');
+        }
+    }
+
+    // Yıllığı sil fonksiyonu (YENİ - Backend ile etkileşime geçecek)
+    async function deleteYearbook(yearbookEntryId) {
+        const token = localStorage.getItem("token"); // Kullanıcı token'ını al
+        if (!token) {
+            showToast("Yıllığı silmek için giriş yapmalısınız.", "error");
+            return;
+        }
+
+        // Silme onayı al
+        if (!confirm("Bu yıllık kaydını silmek istediğinize emin misiniz?")) {
+            return; // Kullanıcı iptal ettiyse çık
+        }
+
+        try {
+            const response = await fetch(`http://localhost:5000/api/yearbook/${yearbookEntryId}`, {
+                method: 'DELETE',
+                headers: {
+                    'Authorization': `Bearer ${token}` // Token'ı gönder
+                }
+            });
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.message || 'Yıllık silinirken bir hata oluştu.');
+            }
+
+            showToast("Yıllık başarıyla silindi.", "success");
+            // Silinen kartı DOM'dan kaldır
+            document.getElementById(`yearbook-card-${yearbookEntryId}`).remove();
+
+            // Eğer hiç yıllık kalmazsa, mesajı göster
+            const yearbookListDiv = document.getElementById('yearbookList');
+            const noEntriesMessageDiv = document.getElementById('noEntriesMessage');
+            if (yearbookListDiv.children.length === 0) {
+                noEntriesMessageDiv.textContent = `Seçilen sınıfa ait hiç yıllık kalmadı.`;
+                noEntriesMessageDiv.style.display = 'block';
+            }
+
+        } catch (error) {
+            console.error("Yıllık silinirken hata:", error);
+            showToast(`Hata: ${error.message}`, 'error');
+        }
+    }
+
+    // Yıllık listesini yükleme fonksiyonu (Butonlar ve ID'ler eklendi)
+    async function loadYearbookList(className = '') {
+        const yearbookListDiv = document.getElementById('yearbookList');
+        const noEntriesMessageDiv = document.getElementById('noEntriesMessage');
+        yearbookListDiv.innerHTML = ''; // Önceki içeriği temizle
+        noEntriesMessageDiv.style.display = 'none'; // Önceki hata/mesajı gizle
+
+        if (!className || className === '') {
+            noEntriesMessageDiv.textContent = 'Lütfen listelemek için bir sınıf seçin.';
+            noEntriesMessageDiv.style.display = 'block';
+            return; // Fonksiyondan çık
+        }
+
+        try {
+            let url = 'http://localhost:5000/api/yearbook/all'; 
+
+            const response = await fetch(url);
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.message || 'Yıllık listesi getirilirken bir hata oluştu.');
+            }
+
+            let yearbookEntries = await response.json(); 
+
+            // Seçilen sınıfa göre frontend'de filtreleme
+            yearbookEntries = yearbookEntries.filter(entry => entry.class === className);
+
+            if (yearbookEntries.length === 0) {
+                noEntriesMessageDiv.textContent = `"${className}" sınıfına ait henüz yıllık girişi bulunmamaktadır.`;
+                noEntriesMessageDiv.style.display = 'block'; 
+            } else {
+                yearbookEntries.forEach(entry => {
+                    const card = document.createElement('div');
+                    card.className = 'yearbook-card';
+                    card.id = `yearbook-card-${entry._id}`; // Silme işlemi için benzersiz ID ekle
+
+                    let mediaContent = '';
+                    if (entry.photo) {
+                        mediaContent += `<img class="yearbook-photo" src="http://localhost:5000${entry.photo}" alt="${entry.name}">`;
+                    }
+                    if (entry.video) {
+                        mediaContent += `<video class="yearbook-video" controls src="http://localhost:5000${entry.video}"></video>`;
+                    }
+
+                    card.innerHTML = `
+                    ${mediaContent}
+                    <div class="yearbook-info">
+                        <h3>${entry.name} ${entry.surname} (${entry.nickname})</h3>
+                        <p><strong>Sınıf:</strong> ${entry.class}</p>
+                        <p><strong>En Sevdiği Ders:</strong> ${entry.lesson}</p>
+                        <p><strong>Not:</strong> ${entry.note}</p>
+                        <p style="font-size: 0.8em; color: #777;">Oluşturulma Tarihi: ${new Date(entry.createdAt).toLocaleDateString()}</p>
+                    </div>
+                    <div class="card-actions" style="margin-top: 1rem; display: flex; gap: 10px;">
+                        <button class="add-favorite-btn" data-id="${entry._id}" style="
+                            background-color: #ffde59; /* Sarı */
+                            color: #004aad; /* Mavi */
+                            border: none; 
+                            padding: 8px 15px; 
+                            border-radius: 5px; 
+                            cursor: pointer; 
+                            font-weight: bold;
+                            transition: background-color 0.2s ease;">
+                            <i class="fas fa-star"></i> Favorilere Ekle
+                        </button>
+                        <button class="delete-yearbook-btn" data-id="${entry._id}" style="
+                            background-color: #e53935; /* Kırmızı */
+                            color: white; 
+                            border: none; 
+                            padding: 8px 15px; 
+                            border-radius: 5px; 
+                            cursor: pointer; 
+                            font-weight: bold;
+                            transition: background-color 0.2s ease;">
+                            <i class="fas fa-trash-alt"></i> Sil
+                        </button>
+                    </div>
+                `;
+                    yearbookListDiv.appendChild(card);
+
+                    // Butonlara olay dinleyicileri ekle
+                    card.querySelector('.add-favorite-btn').addEventListener('click', () => {
+                        addToFavorites(entry._id);
+                    });
+                    card.querySelector('.delete-yearbook-btn').addEventListener('click', () => {
+                        deleteYearbook(entry._id);
+                    });
+                });
+            }
+
+        } catch (error) {
+            console.error("Yıllık listesi yüklenirken hata:", error);
+            showToast(`Hata: ${error.message}`, 'error');
+            noEntriesMessageDiv.textContent = `Yıllıklar yüklenirken bir hata oluştu: ${error.message}`;
+            noEntriesMessageDiv.style.display = 'block';
+        }
+    }
+
+    // Sayfa yüklendiğinde çalışacaklar (AYNI KALIYOR)
+    document.addEventListener('DOMContentLoaded', async () => {
+        await loadClassList(); // Sınıf listesini yükle
+
+        const classSelect = document.getElementById('classSelect');
+        
+        // Sınıf seçimi değiştiğinde yıllık listesini filtrele
+        classSelect.addEventListener('change', (event) => {
+            loadYearbookList(event.target.value); // Seçilen sınıfın adını gönder
+        });
+
+        // Sayfa yüklendiğinde ilk mesajı göster (sınıf seçilmediği için)
+        document.getElementById('noEntriesMessage').textContent = 'Lütfen listelemek için bir sınıf seçin.';
+        document.getElementById('noEntriesMessage').style.display = 'block';
+
+        // Mobil menü butonu (AYNI KALIYOR)
+        const menuBtn = document.getElementById('menuBtn');
+        const navLinks = document.getElementById('navLinks');
+        if (menuBtn && navLinks) {
+            menuBtn.addEventListener('click', () => {
+                navLinks.classList.toggle('active');
+            });
+        }
+    });
+</script>
+    </body>
+</html>

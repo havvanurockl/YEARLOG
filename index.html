@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>YEARLOG</title>
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+    integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&family=Roboto&display=swap"
+    rel="stylesheet">
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="style/style.css">
+</head>
+
+<body>
+  <!-- Header -->
+  <header class="header">
+    <a href="#" class="logo">
+      <img src="images/YEARLOG.png" alt="YEARLOG Logo">
+    </a>
+
+    <nav class="navbar" id="navLinks">
+      <a href="#" class="active">Anasayfa</a>
+      <a href="#mezuniyet">Mezuniyet Yıllıkları</a>
+      <a href="#hakkimizda">Hakkımızda</a>
+      <a href="#iletisim">İletişim</a>
+    </nav>
+
+    <div class="buttons">
+      <button id="searchBtn">
+        <i class="fa-solid fa-magnifying-glass"></i>
+      </button>
+      <button id="menuBtn" class="mobile-only">
+        <i class="fa-solid fa-bars"></i>
+      </button>
+    </div>
+  </header>
+
+  <!-- Ana Sayfa Giriş -->
+  <section class="home">
+    <div class="content">
+      <h3>YEARLOG İLE DİJİTAL ANI DEFTERİNİZİ OLUŞTURUN</h3>
+      <p>Öğrenciler ve mezunlar için modern, güvenli ve erişilebilir bir yıllık deneyimi</p>
+      <a href="login.html" class="btn">Şimdi Oluştur</a>
+    </div>
+  </section>
+
+  <!-- Mezuniyet Yıllıkları -->
+  <section id="mezuniyet" class="yearbook-section">
+    <h2>🎓 Mezuniyet Yıllıkları</h2>
+    <p>Mezun olan arkadaşlarımızın dijital yıllıkları</p>
+    <div class="yearbook-gallery">
+      <div class="yearbook-card">
+        <img src="images/örnek1.png" alt="Örnek 1">
+      </div>
+      <div class="yearbook-card">
+        <img src="images/örnek2.png" alt="Örnek 2">
+      </div>
+      <div class="yearbook-card">
+        <img src="images/örnek3.png" alt="Örnek 3">
+      </div>
+    </div>
+  </section>
+
+  <!-- Hakkımızda -->
+  <section id="hakkimizda" class="info-section about-section">
+    <div class="about-card">
+      <div class="about-icon">
+        <i class="fas fa-lightbulb"></i>
+      </div>
+      <div class="about-text">
+        <h2>Biz Kimiz?</h2>
+        <p>
+          YEARLOG, öğrenciler tarafından geliştirilen dijital bir mezuniyet yıllığı platformudur. Amacımız,
+          klasik yıllık defterlerinin yerini alan, modern ve etkileşimli bir ortam sunmak.
+        </p>
+        <p>
+          Grup oluştur, arkadaşlarınla paylaş, fotoğraf ve not ekle — hepsi tek bir bağlantıyla!
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- İletişim -->
+  <section id="iletisim" class="info-section contact-section">
+    <h2>İletişim</h2>
+    <p>Bize ulaşabileceğiniz sosyal medya platformları:</p>
+    <div class="contact-cards">
+      <a href="#" class="contact-card instagram">
+        <i class="fab fa-instagram"></i>
+        <span>@yearlog</span>
+      </a>
+      <a href="#" class="contact-card facebook">
+        <i class="fab fa-facebook"></i>
+        <span>/yearlog</span>
+      </a>
+      <a href="#" class="contact-card twitter">
+        <i class="fab fa-x-twitter"></i>
+        <span>@yearlog</span>
+      </a>
+      <a href="mailto:destek@yearlog.com" class="contact-card email">
+        <i class="fas fa-envelope"></i>
+        <span>destek@yearlog.com</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- Custom JS -->
+  <script type="module" src="script.js/main.js"></script>
+</body>
+
+</html>

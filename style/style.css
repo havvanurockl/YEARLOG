@@ -1,0 +1,654 @@
+:root {
+    --main-color: #F5F5F5;
+    --black-color: #004aad;
+    --border-color: 0.1rem solid rgba(255, 255, 255, 0.4);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    outline: none;
+    border: none;
+    text-decoration: none;
+    transition: 0.2s ease;
+}
+
+html {
+    font-size: 62.5%;
+    overflow-x: hidden;
+    scroll-padding-top: 9rem;
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: var(--main-color);
+}
+
+h1,
+h2,
+nav a {
+    font-family: 'Poppins', sans-serif;
+}
+
+section {
+    padding: 3.5rem 7%;
+}
+
+.btn {
+    margin-top: 1rem;
+    display: inline-block;
+    padding: 2rem 3.75rem;
+    border-radius: 30rem;
+    font-size: 1.7rem;
+    color: #ffde59;
+    background-color: var(--black-color);
+    box-shadow: 0px 0px 17px -2px rgba(0, 0, 0, 0.75);
+}
+
+/* HEADER düzeni */
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 40px;
+    background-color: white;
+    border-radius: 40px;
+    margin: 20px auto;
+    max-width: 1100px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    position: relative;
+    z-index: 10;
+  }
+  
+  /* LOGO */
+  .logo img {
+    height: 60px;
+  }
+  
+  /* Navbar */
+  .navbar {
+    display: flex;
+    gap: 25px;
+    justify-content: center;
+    align-items: center;
+    flex: 1;
+    margin-left: 50px;
+  }
+  
+  .navbar a {
+    font-size: 1.6rem;
+    color: #004aad;
+    font-weight: 500;
+  }
+  
+  .navbar a:hover {
+    color: #ffde59;
+  }
+  
+  /* Buttons */
+  .buttons {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  #searchBtn {
+    background: none;
+    border: none;
+    font-size: 1.8rem;
+    color: #004aad;
+    cursor: pointer;
+  }
+  
+  /* Bars sadece mobilde */
+  #menuBtn {
+    background: none;
+    border: none;
+    font-size: 1.8rem;
+    color: #004aad;
+    display: none;
+    cursor: pointer;
+  }
+  
+ /* Varsayılan olarak menuBtn görünmesin */
+#menuBtn {
+  display: none;
+}
+
+/* Sadece mobilde görünür olsun */
+@media (max-width: 768px) {
+  .navbar {
+    display: none;
+    flex-direction: column;
+    background-color: white;
+    position: absolute;
+    top: 80px;
+    right: 20px;
+    padding: 15px;
+    border-radius: 15px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
+    z-index: 99;
+  }
+
+  .navbar.active {
+    display: flex;
+  }
+
+  #menuBtn {
+    display: inline-block;
+  }
+}
+
+
+
+/* Home */
+.home {
+    min-height: 100vh;
+    background: url(../images/iStock-936032434.jpg) no-repeat;
+    background-size: cover;
+    background-position: center;
+    margin-top: -12.3rem;
+    display: flex;
+    align-items: center;
+}
+
+.home .content {
+    max-width: 60rem;
+}
+
+.home .content h3 {
+    font-size: 6rem;
+    color: #fff;
+}
+
+.home .content p {
+    font-size: 2rem;
+    font-weight: 300;
+    line-height: 1.8;
+    padding: 1rem 0;
+    color: #1a237e;
+}
+
+/* Login / Register Forms */
+.login-container {
+    width: 300px;
+    margin: 100px auto;
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.2);
+    text-align: center;
+}
+
+.login-container h2 {
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.login-container input,
+.login-container button {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 5px;
+}
+
+.login-container input {
+    border: 1px solid black;
+}
+
+.login-container button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.login-container button:hover {
+    background-color: #0056b3;
+}
+
+.login-container a {
+    color: #007bff;
+}
+
+
+/* Mezuniyet Yıllıkları bölümü */
+.yearbook-section {
+    padding: 5rem 7%;
+    background-color: #f9f9f9;
+    border-radius: 2rem;
+    margin: 5rem 7%;
+    text-align: center;
+}
+
+.yearbook-section h2 {
+    font-size: 3.5rem;
+    color: var(--black-color);
+    margin-bottom: 1rem;
+}
+
+.yearbook-section p {
+    font-size: 1.6rem;
+    color: #555;
+    margin-bottom: 3rem;
+}
+
+/* Kartlar alanı */
+.yearbook-gallery {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    justify-content: center;
+}
+
+/* Kartın kendisi */
+.yearbook-card {
+    width: 280px;
+    background-color: white;
+    border-radius: 1rem;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding-bottom: 1rem;
+}
+
+/* Görsel - TAMAMINI göster */
+.yearbook-card img {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+    background-color: #fff;
+}
+
+/* Kart içeriği */
+.yearbook-card p {
+    font-size: 1.4rem;
+    color: #333;
+    padding: 0.5rem 1rem;
+    line-height: 1.4;
+}
+
+.yearbook-card:hover {
+    transform: scale(1.03);
+}
+
+
+/* Not ekleme */
+.note-input {
+    width: 100%;
+    padding: 8px;
+    margin-top: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+.note-btn {
+    margin-top: 5px;
+    padding: 6px 12px;
+    background-color: #004aad;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.note-btn:hover {
+    background-color: #003c88;
+}
+
+.note-list {
+    list-style: disc;
+    margin-left: 20px;
+}
+
+/* Sayfa bölümleri */
+.info-section {
+    padding: 5rem 7%;
+    background-color: white;
+    margin: 5rem 7%;
+    border-radius: 2rem;
+    box-shadow: 0 0 17px -2px rgba(0, 0, 0, 0.1);
+}
+
+.info-section h2 {
+    font-size: 3rem;
+    color: var(--black-color);
+    margin-bottom: 2rem;
+    font-family: 'Poppins', sans-serif;
+    text-align: center;
+}
+
+.info-section p,
+.info-section ul {
+    font-size: 1.6rem;
+    line-height: 1.8;
+    color: #333;
+    margin-bottom: 1.5rem;
+}
+
+/* Galeri */
+.yearbook-gallery {
+    display: flex;
+    gap: 2rem;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 2rem;
+}
+
+.sample-card {
+    background-color: #f5f5f5;
+    padding: 2rem;
+    border-radius: 1rem;
+    font-size: 1.6rem;
+    color: var(--black-color);
+    font-weight: bold;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.sample-card:hover {
+    transform: scale(1.05);
+    background-color: #ffde59;
+    color: white;
+}
+
+/* Hakkımızda özel */
+.about-section {
+    display: flex;
+    justify-content: center;
+    padding: 5rem 7%;
+    background-color: #ffffff;
+}
+
+.about-card {
+    background-color: #f8f9fa;
+    padding: 3rem;
+    border-radius: 2rem;
+    box-shadow: 0 0 12px rgba(0, 0, 0, 0.1);
+    display: flex;
+    gap: 2rem;
+    max-width: 1000px;
+    align-items: center;
+}
+
+.about-icon {
+    font-size: 5rem;
+    color: #004aad;
+}
+
+.about-text h2 {
+    font-size: 2.8rem;
+    margin-bottom: 1rem;
+    color: #004aad;
+}
+
+.about-text p {
+    font-size: 1.6rem;
+    color: #333;
+    margin-bottom: 1rem;
+    text-transform: none;
+}
+
+/* İletişim */
+.contact-section {
+    text-align: center;
+}
+
+.contact-cards {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+.contact-card {
+    background-color: #f5f5f5;
+    border-radius: 1rem;
+    padding: 2rem 3rem;
+    font-size: 1.6rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    text-decoration: none;
+    color: #333;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+    transition: 0.3s;
+}
+
+.contact-card:hover {
+    transform: scale(1.05);
+    background-color: #ffde59;
+    color: white;
+}
+
+.contact-card i {
+    font-size: 2.5rem;
+}
+
+#hakkimizda p,
+#iletisim p {
+    text-transform: none;
+}
+
+/* createhtml için arkaplantasarımı*/
+.page-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: url(../images/create.bk.jpg) no-repeat center center;
+    background: url(../images/longin.bk.jpg) no-repeat center center;
+    background: url(../images/profile-bg.jpg) no-repeat center center;
+    background-size: cover;
+    filter: blur(8px);
+    z-index: -1;
+}
+/* Varsayılan olarak navbar görünür */
+.navbar {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  align-items: center;
+}
+
+.form-container {
+    background-color: white;
+    width: 600px;
+    /* Daha geniş form */
+    margin: 50px auto;
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.form-container h2 {
+    font-size: 2.5rem;
+    color: #004aad;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.form-container form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.form-container label {
+    font-size: 1.4rem;
+    color: #333;
+    margin-bottom: 5px;
+}
+
+.form-container input,
+.form-container textarea {
+    width: 100%;
+    padding: 10px 14px;
+    font-size: 1.4rem;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-sizing: border-box;
+}
+
+.form-container textarea {
+    resize: vertical;
+}
+.form-container select {
+    width: 100%;
+    padding: 10px 14px;
+    font-size: 1.4rem;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-sizing: border-box;
+    background-color: white;
+}
+
+
+.form-container button[type="submit"] {
+    padding: 12px;
+    font-size: 1.4rem;
+    background-color: #004aad;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: 0.3s;
+}
+
+.form-container button[type="submit"]:hover {
+    background-color: #00308a;
+}
+
+#downloadPdf {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.6rem;
+    cursor: pointer;
+    transition: 0.3s;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+#downloadPdf:hover {
+    background-color: #0056b3;
+}
+
+
+.yearbook-card {
+  border: 1px solid #ccc;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  background: #f9f9f9;
+  border-radius: 10px;
+}
+.yearbook-photo {
+  flex-shrink: 0;
+}
+.yearbook-info p {
+  margin: 0.2rem 0;
+}
+.page-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: url(../images/register.bk.jpg) no-repeat center center;
+    background-size: cover;
+    filter: blur(8px);
+    z-index: -1;
+}
+.download-link {
+  display: inline-block;
+  background-color: #004aad;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: bold;
+  margin-top: 1rem;
+  transition: background-color 0.3s;
+}
+
+.download-link:hover {
+  background-color: #002f8a;
+}
+
+.share-buttons {
+  margin-top: 1.5rem;
+}
+
+.share-buttons a,
+.share-buttons button {
+  display: inline-block;
+  margin-right: 10px;
+  padding: 8px 16px;
+  background-color: #004aad;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.share-buttons a:hover,
+.share-buttons button:hover {
+  background-color: #002f8a;
+}
+/* backend/public/style/style.css (En alta ekleyin) */
+
+.toast {
+    visibility: hidden; /* Varsayılan olarak gizli */
+    min-width: 250px;
+    margin-left: -125px; /* Ortalamak için */
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    border-radius: 5px;
+    padding: 16px;
+    position: fixed;
+    z-index: 99; /* Diğer her şeyin üstünde */
+    left: 50%;
+    bottom: 30px; /* Alttan 30px yukarıda */
+    font-size: 17px;
+    white-space: nowrap; /* Metnin tek satırda kalması için */
+    transform: translateX(-50%); /* Tam ortalamak için */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    opacity: 0;
+    transition: opacity 0.5s, visibility 0.5s;
+}
+
+.toast.show {
+    visibility: visible;
+    opacity: 1;
+}
+
+.toast.success {
+    background-color: #4CAF50; /* Yeşil */
+}
+
+.toast.error {
+    background-color: #f44336; /* Kırmızı */
+}
+

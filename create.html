@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Yıllık Oluştur - YEARLOG</title>
+  <link rel="stylesheet" href="style/style.css" />
+</head>
+
+<body>
+  <div class="page-bg"></div>
+  <div class="form-container">
+
+    <div style="width: 100%; text-align: center; margin: 1rem 0;">
+      <button id="showYearbookListBtn" style="
+        padding: 0.6rem 1.2rem;
+        background-color: #004aad;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        font-weight: 600;
+        font-size: 1.1rem;
+        transition: background-color 0.3s ease;">
+        Yıllık Listesini Göster
+      </button>
+
+      <!-- Sınıf Ekleme Formu -->
+      <h2>Sınıf Ekle</h2>
+      <form id="classForm">
+        <label for="className">Sınıf / Grup Adı</label>
+        <input type="text" id="className" placeholder="örneğin: 12-A veya Bilgisayar Grubu" required />
+        <button type="submit">Sınıfı Ekle</button>
+      </form>
+
+      <hr style="margin: 30px 0;" />
+
+      <!-- Yıllık Kişi Girişi -->
+      <h2>Yıllık Oluştur</h2>
+      <form id="yearbookForm" enctype="multipart/form-data">
+        <label for="classSelect">Sınıf Seç</label>
+        <select id="classSelect" required></select>
+
+        <label for="name">Ad</label>
+        <input type="text" id="name" required />
+
+        <label for="surname">Soyad</label>
+        <input type="text" id="surname" required />
+
+        <label for="nickname">Lakap</label>
+        <input type="text" id="nickname" required />
+
+        <label for="lesson">En Sevdiği Ders</label>
+        <input type="text" id="lesson" required />
+
+        <label for="note">Arkadaşlarına Not</label>
+        <textarea id="note" rows="4" required></textarea>
+
+        <label for="photo">Fotoğraf Ekle</label>
+        <input type="file" id="photo" accept="image/*" required />
+
+        <label for="video">Video Ekle (isteğe bağlı)</label>
+        <input type="file" id="video" accept="video/*">
+
+        <button type="submit">Yıllığı Oluştur</button>
+      </form>
+
+      <div id="preview" style="margin-top: 30px;"></div>
+      <button id="downloadPdf" style="display:none; margin-top: 20px;">PDF Olarak İndir</button>
+      <input type="text" id="shareLink" style="display:none; margin-top: 10px; width: 100%;" readonly />
+    </div>
+
+    <!-- Toast -->
+    <div id="toast" style="
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background-color: #004aad;
+      color: white;
+      padding: 1rem 2rem;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.2);
+      display: none;
+      font-size: 1.4rem;
+      z-index: 9999;">Güncellendi!
+    </div>
+
+    <div id="actionButtons" style="display: none;">
+      <a id="downloadLink" class="download-link" download>
+        📥 Yıllığı İndir (PDF)
+      </a>
+
+      <div class="share-buttons">
+        <p>Yıllığı paylaş:</p>
+        <a id="whatsappShare" target="_blank">WhatsApp ile Paylaş</a>
+        <a id="emailShare" target="_blank">E-posta ile Paylaş</a>
+        <button onclick="copyLink()">Linki Kopyala</button>
+      </div>
+    </div>
+
+    <!-- PDF ve Paylaşım -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+    <script>
+      // Sınıf Ekleme
+      document.getElementById("classForm").addEventListener("submit", async function (e) {
+        e.preventDefault();
+        const className = document.getElementById("className").value;
+        const response = await fetch("http://localhost:5000/api/classes", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ className })
+        });
+
+        if (response.ok) {
+          alert("Sınıf eklendi.");
+          document.getElementById("className").value = "";
+          loadClassList();
+        } else {
+          alert("Hata: Sınıf eklenemedi.");
+        }
+      });
+
+      // Yıllık Oluşturma
+      document.getElementById("yearbookForm").addEventListener("submit", async function (e) {
+        e.preventDefault();
+
+        const formData = new FormData();
+        formData.append("class", document.getElementById("classSelect").value);
+        formData.append("name", document.getElementById("name").value);
+        formData.append("surname", document.getElementById("surname").value);
+        formData.append("nickname", document.getElementById("nickname").value);
+        formData.append("lesson", document.getElementById("lesson").value);
+        formData.append("note", document.getElementById("note").value);
+        formData.append("photo", document.getElementById("photo").files[0]);
+        if (document.getElementById("video").files.length > 0) {
+          formData.append("video", document.getElementById("video").files[0]);
+        }
+
+        const response = await fetch("http://localhost:5000/api/yearbook", {
+          method: "POST",
+          body: formData
+        });
+
+        const result = await response.json();
+        if (response.ok) {
+          alert("Yıllık başarıyla oluşturuldu!");
+         window.location.href = 'yearbookList.html';
+        } else {
+          alert("Hata: " + result.message);
+        }
+      });
+
+      // Sınıf listesi yükle
+      async function loadClassList() {
+        const res = await fetch("http://localhost:5000/api/classes");
+        const classes = await res.json();
+        const select = document.getElementById("classSelect");
+        select.innerHTML = "";
+        classes.forEach(c => {
+          const option = document.createElement("option");
+          option.value = c.name;
+          option.textContent = c.name;
+          select.appendChild(option);
+        });
+      }
+
+      // Sayfa açıldığında sınıfları getir
+      window.addEventListener("DOMContentLoaded", loadClassList);
+
+      // Link Kopyalama
+      function copyLink() {
+        const selectedClass = document.getElementById("classSelect").value;
+        if (!selectedClass) return;
+        const fileUrl = `http://localhost:5000/downloads/yillik-${selectedClass}.pdf`;
+        navigator.clipboard.writeText(fileUrl).then(() => {
+          alert("Bağlantı panoya kopyalandı!");
+        });
+      }
+    </script>
+
+  </div>
+</body>
+
+</html>
